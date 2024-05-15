@@ -3,7 +3,7 @@ import axios from "axios";
 import Cookies from "universal-cookie";
 
 const cookie = new Cookies();
-const url = "http://localhost:4000/api/users/";
+const url = "https://memory-backend-kx62.onrender.com/api/users/";
 
 export const sign_up = createAsyncThunk("user/sign_up", async (object) => {
     const user = await axios
