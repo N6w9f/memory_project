@@ -1,5 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
-const url = "http://localhost:4000/api/";
+const url = "https://memory-backend-kx62.onrender.com/api/";
 
 const urls = createSlice({
     initialState: {
