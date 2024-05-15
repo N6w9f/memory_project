@@ -1,0 +1,73 @@
+div.post {
+    direction: ltr;
+    cursor: pointer;
+    transition: var(--transition);
+    -webkit-transition: var(--transition);
+    -moz-transition: var(--transition);
+    -ms-transition: var(--transition);
+    -o-transition: var(--transition);
+    &:hover {
+        scale: 0.99;
+    }
+
+    div.upper {
+        position: relative;
+
+        div.img {
+            img {
+                min-height: 255px;
+            }
+            &::before {
+                content: "";
+                height: 100%;
+                width: 100%;
+                opacity: 0.2;
+                background-color: black;
+                border-radius: inherit;
+                -webkit-border-radius: inherit;
+                -moz-border-radius: inherit;
+                -ms-border-radius: inherit;
+                -o-border-radius: inherit;
+
+                position: absolute;
+                top: 0%;
+                left: 0%;
+                z-index: 1;
+            }
+        }
+
+        div.text {
+            padding: 18px 22px;
+            width: 100%;
+            position: absolute;
+            top: 0%;
+            left: 0%;
+            z-index: 1;
+
+            h4 {
+                font-weight: normal !important;
+            }
+        }
+    }
+    div.lower {
+        flex: 1;
+        span {
+            font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
+                monospace !important;
+            color: var(--gray-dark);
+        }
+        p {
+            color: var(--gray-dark);
+        }
+
+        .actions {
+            .notLogged {
+                cursor: not-allowed;
+                opacity: 0.5;
+                button {
+                    cursor: not-allowed;
+                }
+            }
+        }
+    }
+}

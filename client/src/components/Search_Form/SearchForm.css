@@ -1,0 +1,22 @@
+div.search-form {
+    position: relative;
+
+    div.sticky {
+        position: sticky;
+        top: 10px;
+        input,
+        textarea,
+        button,
+        div {
+            font-weight: 300;
+            font-size: 18px;
+        }
+        button,
+        div {
+            font-weight: 500;
+        }
+        button.letter-space {
+            letter-spacing: 5px;
+        }
+    }
+}

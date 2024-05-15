@@ -1,0 +1,14 @@
+home => <FontAwesomeIcon icon={faHouse} />
+trash => <FontAwesomeIcon icon={faTrash} />
+
+menu => <FontAwesomeIcon icon={faBars} />
+close => <FontAwesomeIcon icon={faXmark} />
+
+Arrow => 
+<FontAwesomeIcon icon={faChevronUp} />
+<FontAwesomeIcon icon={faChevronRight} />
+<FontAwesomeIcon icon={faChevronDown} />
+<FontAwesomeIcon icon={faChevronLeft} />
+
+plus => <FontAwesomeIcon icon={faPlus} />
+minus => <FontAwesomeIcon icon={faMinus} />

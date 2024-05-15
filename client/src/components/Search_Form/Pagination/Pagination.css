@@ -1,0 +1,14 @@
+div.pagination {
+    ul {
+        flex-wrap: wrap;
+        li button.enough {
+            opacity: 0.5;
+            cursor: not-allowed;
+            &:hover {
+                background: none;
+                border: 1px solid var(--dark);
+                color: var(--dark);
+            }
+        }
+    }
+}

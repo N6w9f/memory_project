@@ -1,0 +1,20 @@
+nav {
+    div.logo {
+        cursor: pointer;
+
+        img.text {
+            width: 210px;
+        }
+        img.logo {
+            height: 32px;
+        }
+    }
+
+    div.sign {
+        img {
+            height: 50px;
+            width: 50px;
+            clip-path: circle();
+        }
+    }
+}
