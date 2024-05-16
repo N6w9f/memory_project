@@ -14,16 +14,23 @@ const get_memories = catcher(async (req, res) => {
     const page = req.query.page || 1;
     const skip = (page - 1) * limit;
 
+    const searchRE = new RegExp(search, "i");
+
     const filter =
         search !== "none" && tags !== "none"
-            ? { title: search, tags: tags.split(" ") }
+            ? {
+                  $or: [
+                      { title: searchRE },
+                      { tags: { $in: tags.split(" ") } },
+                  ],
+              }
             : search !== "none" && tags === "none"
-            ? { title: search }
+            ? { $or: [{ title: searchRE }] }
             : tags !== "none" && search === "none"
-            ? { tags: tags.split(" ") }
+            ? { $or: [{ tags: { $in: tags.split(" ") } }] }
             : {};
 
-    const length = (await Memories.find(filter)).length;
+    const length = await Memories.countDocuments(filter);
     const memories = await Memories.find(
         filter,
         { __v: false },
@@ -52,8 +59,19 @@ const add_memory = catcher(async (req, res) => {
     res.status(201).json(memory);
 });
 
+const get_memory = catcher(async (req, res) => {
+    const { _id } = req.params;
+
+    const memory = await Memories.findById(_id, { __v: false });
+    if (memory) {
+        res.status(200).json(memory);
+    } else {
+        res.status(404).json(fails());
+    }
+});
+
 const update_memory = catcher(async (req, res) => {
-    const _id = req.params._id;
+    const { _id } = req.params;
     const { title, description, tags } = req.body.data;
 
     const memory = await Memories.findById(_id);
@@ -82,7 +100,7 @@ const update_memory = catcher(async (req, res) => {
 });
 
 const delete_memory = catcher(async (req, res) => {
-    const _id = req.params._id;
+    const { _id } = req.params;
 
     const memory = await Memories.findById(_id);
     if (memory) {
@@ -100,17 +118,17 @@ const delete_memory = catcher(async (req, res) => {
 });
 
 const like = catcher(async (req, res) => {
-    const memoryID = req.params._id;
+    const { _id } = req.params;
     const email = req.tokenInfo.email;
 
-    const memory = await Memories.findById(memoryID);
+    const memory = await Memories.findById(_id);
 
     if (memory) {
         const user = await Users.findOne({ email });
-        const isLiked = user.likes.some((e) => e === memoryID);
+        const isLiked = user.likes.some((e) => e === _id);
 
         if (isLiked) {
-            const userLikes = user.likes.filter((e) => e !== memoryID);
+            const userLikes = user.likes.filter((e) => e !== _id);
             const updatedUser = await Users.findOneAndUpdate(
                 { email },
                 { $set: { likes: userLikes } },
@@ -119,7 +137,7 @@ const like = catcher(async (req, res) => {
 
             const memoryLikes = memory.likes.filter((e) => e !== email);
             await Memories.findOneAndUpdate(
-                { _id: memoryID },
+                { _id: _id },
                 { $set: { likes: memoryLikes } }
             );
             const token = jwtFn({
@@ -139,11 +157,11 @@ const like = catcher(async (req, res) => {
         } else {
             const updatedUser = await Users.findOneAndUpdate(
                 { email },
-                { $set: { likes: [...user.likes, memoryID] } },
+                { $set: { likes: [...user.likes, _id] } },
                 { new: true }
             );
             await Memories.findOneAndUpdate(
-                { _id: memoryID },
+                { _id: _id },
                 { $set: { likes: [...memory.likes, email] } }
             );
             const token = jwtFn({
@@ -166,4 +184,11 @@ const like = catcher(async (req, res) => {
     }
 });
 
-export { get_memories, add_memory, update_memory, delete_memory, like };
+export {
+    get_memories,
+    add_memory,
+    get_memory,
+    update_memory,
+    delete_memory,
+    like,
+};

@@ -12,10 +12,9 @@ import fails from "./utils/fails.js";
 
 // logic
 dotenv.config();
-(async () => {
-    await mongoose.connect(process.env.MEMORIES);
-    console.log(`Mongoose connected`);
-})();
+await mongoose.connect(process.env.MEMORIES);
+console.log(`Mongoose connected`);
+
 const app = express();
 app.use(express.json());
 app.use(cors());

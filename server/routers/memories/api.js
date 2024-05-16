@@ -8,6 +8,7 @@ import {
     update_memory,
     delete_memory,
     like,
+    get_memory,
 } from "./controller.js";
 import auth from "../../middlewares/auth.js";
 // logic
@@ -36,6 +37,7 @@ memoriesRouter
 memoriesRouter.route("/like/:_id").post(auth, like);
 memoriesRouter
     .route("/:_id")
+    .get(get_memory)
     .patch(auth, update_memory)
     .delete(auth, delete_memory);
 
